@@ -56,15 +56,14 @@ export function calculateCartQuantity() {
 }
 
 export function updateQuantity(productId, newQuantity) {
-  let matchingItem;
+  let matchingItem = cart.find((cartItem) => cartItem.productId === productId);
 
-  cart.forEach((cartItem) => {
-    if (productId === cartItem.productId) {
-      matchingItem = cartItem;
-    }
+  if (!matchingItem) {
+    console.error(`Cart item not found for productId: ${productId}`);
+    return;
+  }
 
-    matchingItem.quantity = newQuantity;
+  matchingItem.quantity = newQuantity;
 
-    saveToStorage();
-  });
+  saveToStorage();
 }

@@ -46,7 +46,7 @@ cart.forEach((cartItem) => {
               data-product-id="${matchingProduct.id}">
               Update
             </span>
-            <input class="quantity-input js-quantity-input-${matchingProduct.id}">
+            <input class="quantity-input js-quantity-input js-quantity-input-${matchingProduct.id}" data-product-id="${matchingProduct.id}">
             <span class="save-quantity-link link-primary js-save-link" data-product-id="${matchingProduct.id}">Save</span>
             <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
               Delete
@@ -146,23 +146,44 @@ document.querySelectorAll('.js-save-link')
       // return early and NOT run the rest of the code. This
       // technique is called an "early return".
 
-      const quantityInput = document
-        .querySelector(`.js-quantity-input-${productId}`);
-
-      const newQuantity = Number(quantityInput.value);
-
-      if (newQuantity < 0 || newQuantity > 100) {
-        alert('Quantity must be at least 0 and less than 1000');
-        return;
-      }
-      updateQuantity(productId, newQuantity);
-
-      const container = document.querySelector(`.js-cart-item-container-${productId}`);
-      container.classList.remove('is-editing-quantity');
-      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
-      quantityLabel.innerHTML = newQuantity;
-
-      updateCartQuantity();
+      handleQuantityInput(productId);
     });
   });
 
+document.querySelectorAll('.js-quantity-input')
+  .forEach((input) => {
+    const { productId } = input.dataset;
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        handleQuantityInput(productId);
+      }
+    })
+  });
+
+//
+function handleQuantityInput(productId) {
+  const quantityInput = document
+    .querySelector(`.js-quantity-input-${productId}`);
+
+  if (!quantityInput) {
+    console.error(`Input not found for productId: ${productId}`);
+    return;
+  }
+
+  const newQuantity = Number(quantityInput.value);
+
+  if (newQuantity < 0 || newQuantity > 1000) {
+    alert('Quantity must be at least 0 and less than 1000');
+    return;
+  }
+
+  updateQuantity(productId, newQuantity);
+
+  const container = document.querySelector(`.js-cart-item-container-${productId}`);
+  container.classList.remove('is-editing-quantity');
+  const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+  quantityLabel.innerHTML = newQuantity;
+
+  updateCartQuantity();
+}
