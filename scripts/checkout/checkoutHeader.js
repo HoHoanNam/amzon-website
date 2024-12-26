@@ -1,11 +1,7 @@
-import { cart } from "../../data/cart.js";
+import { calculateCartQuantity } from "../../data/cart.js";
 
 export function renderCheckoutHeader() {
-  let cartQuantity = 0;
-
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+  const cartQuantity = calculateCartQuantity();
 
   const checkoutHeaderHTML = `
     <div class="header-content">
@@ -18,7 +14,7 @@ export function renderCheckoutHeader() {
 
       <div class="checkout-header-middle-section">
         Checkout
-        (<a class="return-to-home-link js-return-to-home-link" href="amazon.html"></a>)
+        (<a class="return-to-home-link js-return-to-home-link" href="amazon.html">${cartQuantity}</a>)
       </div>
 
       <div class="checkout-header-right-section">

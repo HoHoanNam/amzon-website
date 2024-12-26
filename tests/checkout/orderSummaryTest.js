@@ -1,5 +1,5 @@
-import {renderOrderSummary} from '../../scripts/checkout/orderSummary.js';
-import {loadFromStorage, cart} from '../../data/cart.js';
+import { renderOrderSummary } from '../../scripts/checkout/orderSummary.js';
+import { loadFromStorage, cart } from '../../data/cart.js';
 
 describe('test suite: renderOrderSummary', () => {
   const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
@@ -11,6 +11,7 @@ describe('test suite: renderOrderSummary', () => {
     document.querySelector('.js-test-container').innerHTML = `
       <div class="js-order-summary"></div>
       <div class="js-payment-summary"></div>
+      <div class="js-checkout-header"></div>
     `;
 
     spyOn(localStorage, 'getItem').and.callFake(() => {

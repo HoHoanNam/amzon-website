@@ -117,22 +117,11 @@ export function renderOrderSummary() {
         const { productId } = link.dataset;
         removeFromCart(productId);
 
-        updateCartQuantity();
         renderCheckoutHeader();
         renderOrderSummary();
         renderPaymentSummary();
       });
     });
-
-
-  //
-  function updateCartQuantity() {
-    const cartQuantity = calculateCartQuantity();
-
-    document.querySelector('.js-return-to-home-link')
-      .innerHTML = `${cartQuantity} items`;
-  }
-  updateCartQuantity();
 
   //
   document.querySelectorAll('.js-update-link')
